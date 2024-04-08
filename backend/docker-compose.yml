@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+    
+  db:
+    image: mysql:5.7.22
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ambassador
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  
+  redis:
+    image: redis:latest
+    container_name: redis-db
+    ports:
+      - "6379:6379"

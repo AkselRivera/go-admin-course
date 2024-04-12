@@ -34,6 +34,19 @@ func GetLinks(c *fiber.Ctx) error {
 	return c.JSON(links)
 }
 
+func GetLink(c *fiber.Ctx) error {
+
+	code := c.Params("code")
+
+	links := models.Link{
+		Code: code,
+	}
+
+	database.DB.Preload("User").Preload("Products").First(&links)
+
+	return c.JSON(links)
+}
+
 type CreateLinkRequest struct {
 	Product []int `json:"products"`
 }

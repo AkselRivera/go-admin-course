@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3"
 services:
   backend:
     build: .
@@ -9,7 +9,7 @@ services:
     depends_on:
       - db
       - redis
-    
+
   db:
     image: mysql:5.7.22
     restart: always
@@ -22,9 +22,23 @@ services:
       - .dbdata:/var/lib/mysql
     ports:
       - "3306:3306"
-  
+
   redis:
     image: redis:latest
     container_name: redis-db
     ports:
       - "6379:6379"
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: 'mailhog'
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    depends_on:
+      - backend
+
+  frontend:
+    build: ../frontend/react-admin
+    ports:
+      - "3000:3000"

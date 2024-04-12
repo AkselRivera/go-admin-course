@@ -20,6 +20,7 @@ func Setup(router *fiber.App) {
 	ambassadorRoutes := api.Group("/ambassador")
 	productRoutes := api.Group("/products")
 	userRoutes := api.Group("/users")
+	checkoutRoutes := api.Group("/checkout")
 
 	//* Public Routes
 	adminRoutes.Post("/register", controllers.Register)
@@ -55,4 +56,7 @@ func Setup(router *fiber.App) {
 
 	api.Get("/orders", controllers.GetOrders)
 
+	checkoutRoutes.Get("links/:code", controllers.GetLink)
+	checkoutRoutes.Post("/orders", controllers.CreateOrder)
+	checkoutRoutes.Post("/orders/confirm", controllers.CompleteOrder)
 }
